@@ -4,7 +4,7 @@ WORKDIR /rpa
 
 COPY rpa.py /rpa
 
-COPY requirements.txt /webpython/
+COPY requirements.txt /rpa/
 
 RUN apt-get update
 
