@@ -1,4 +1,4 @@
-name: Python application
+name: QA Python App
 
 on:
   push:
