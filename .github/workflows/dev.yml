@@ -28,7 +28,7 @@ jobs:
 
     - name: Test with coverage
       run: |
-        coverage run -m rpa.py
+        coverage run rpa.py
         coverage report
 
     - name: Log in to Docker Hub
