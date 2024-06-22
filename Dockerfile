@@ -4,19 +4,21 @@ FROM python:3.10-slim
 # Definir o diretório de trabalho dentro do contêiner
 WORKDIR /app
 
+# Instalar as dependências do sistema
+RUN apt-get update && \
+    apt-get install -y libpq-dev wget gnupg
+
 # Copiar o arquivo requirements.txt para o contêiner
 COPY requirements.txt .
 
-# Instalar as dependências
+# Instalar as dependências do Python
 RUN pip install -r requirements.txt
 
 # Copiar o script Python para o contêiner
 COPY rpa.py .
 
 # Instalar o Chrome
-RUN apt-get update && \
-    apt-get install -y wget gnupg && \
-    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
     apt-get update && \
     apt-get install -y google-chrome-stable && \
@@ -27,4 +29,4 @@ RUN apt-get update && \
 ENV DISPLAY=:99
 
 # Executar o script Python
-CMD ["python", "app.py"]
+CMD ["python", "rpa.py"]
