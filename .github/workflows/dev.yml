@@ -2,9 +2,9 @@ name: Python application
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "DEV" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "DEV" ]
 
 permissions:
   contents: write
@@ -28,7 +28,7 @@ jobs:
 
     - name: Test with coverage
       run: |
-        coverage run -m rpa.py
+        coverage run rpa.py
         coverage report
 
     - name: Log in to Docker Hub

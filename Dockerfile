@@ -1,30 +1,17 @@
-# Usar uma imagem base do Python
-FROM python:3.10-slim
+FROM python
 
-# Definir o diretório de trabalho dentro do contêiner
-WORKDIR /app
+WORKDIR /rpa
 
-# Copiar o arquivo requirements.txt para o contêiner
-COPY requirements.txt .
+COPY rpa.py /rpa
 
-# Instalar as dependências
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt /rpa/
 
-# Copiar o script Python para o contêiner
-COPY script.py .
+RUN apt-get update
 
-# Instalar o Chrome
-RUN apt-get update && \
-    apt-get install -y wget gnupg && \
-    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-    sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
-    apt-get update && \
-    apt-get install -y google-chrome-stable && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get install nano
 
-# Definir a variável de ambiente para evitar problemas com o Chrome
-ENV DISPLAY=:99
+RUN pip install -r requirements.txt
 
-# Executar o script Python
-CMD ["python", "script.py"]
+EXPOSE 5000
+
+CMD ["python", "app.py"]
