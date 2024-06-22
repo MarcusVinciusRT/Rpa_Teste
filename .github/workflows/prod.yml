@@ -2,9 +2,9 @@ name: Python application
 
 on:
   push:
-    branches: [ "DEV" ]
+    branches: [ "PROD" ]
   pull_request:
-    branches: [ "DEV" ]
+    branches: [ "PROD" ]
 
 permissions:
   contents: write
@@ -30,3 +30,15 @@ jobs:
       run: |
         coverage run rpa.py
         coverage report
+
+    - name: Log in to Docker Hub
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+
+    - name: Build Docker image
+      run: docker build -t marcusvrt0/projeto_rpa:${{ github.run_number }} .
+
+    - name: Push Docker image
+      run: docker push marcusvrt0/projeto_rpa:${{ github.run_number }}
