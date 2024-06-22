@@ -37,11 +37,8 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
 
-    - name: Verificar login no Docker Hub
-      run: docker info
-
     - name: Build Docker image
-      run: docker build -t marcusvrt0/projeto_rpa:latest .
+      run: docker build -t marcusvrt0/projeto_rpa:${{ github.run_number }} .
 
     - name: Push Docker image
-      run: docker push marcusvrt0/projeto_rpa:latest
+      run: docker push marcusvrt0/projeto_rpa:${{ github.run_number }}
