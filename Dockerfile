@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar o script Python para o contêiner
-COPY script.py .
+COPY rpa.py .
 
 # Instalar o Chrome
 RUN apt-get update && \
@@ -27,4 +27,4 @@ RUN apt-get update && \
 ENV DISPLAY=:99
 
 # Executar o script Python
-CMD ["python", "script.py"]
+CMD ["python", "app.py"]
